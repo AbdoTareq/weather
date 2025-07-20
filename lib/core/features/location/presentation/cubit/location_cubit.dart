@@ -19,7 +19,11 @@ class LocationCubit extends Cubit<LocationState> {
         emit(LocationError("Location permission denied"));
         return;
       } else if (permission == LocationPermission.deniedForever) {
-        emit(LocationError("Location permission denied forever"));
+        emit(
+          LocationError(
+            "Location permission denied forever please enable it from settings",
+          ),
+        );
         return;
       }
       final location = await locationService.getCurrentLocation();

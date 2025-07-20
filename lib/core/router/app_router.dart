@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:weather/core/router/app_routes.dart';
-import 'package:weather/main.dart';
+import 'package:weather/core/features/home_page.dart';
 
 class AppRouter {
   static final GoRouter routes = GoRouter(
@@ -9,7 +9,7 @@ class AppRouter {
       GoRoute(
         name: Routes.home,
         path: Routes.home,
-        builder: (context, state) => const MyHomePage(title: ''),
+        builder: (context, state) => HomePage(),
       ),
     ],
   );
