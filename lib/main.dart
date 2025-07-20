@@ -7,6 +7,7 @@ import 'package:weather/core/sl/injection_container.dart' as sl;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await sl.init();
+
   runApp(
     RequestsInspector(
       navigatorKey: null,

@@ -20,6 +20,7 @@ dependencies:
   geolocator: ^13.0.2
   permission_handler: ^11.2.1
   get_it: ^8.0.3
+  envied: ^1.1.1
 
 dev_dependencies:
   flutter_test:
@@ -30,6 +31,8 @@ dev_dependencies:
   logger: ^2.5.0
   # HTTP Inspector tool for Flutter which helps debugging http requests.
   requests_inspector: ^4.2.1
+  build_runner: ^2.5.4
+  envied_generator: ^1.1.1
 
 flutter:
   uses-material-design: true
