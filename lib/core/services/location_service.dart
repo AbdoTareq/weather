@@ -4,12 +4,12 @@ import 'package:logger/logger.dart';
 
 enum MyLocationPermission { allowed, denied, deniedForever }
 
-abstract class LocationService {
+abstract class LocationServiceInterface {
   Future<MyLocationPermission> checkLocationPermission();
   Future<Position?> getCurrentLocation();
 }
 
-class LocationServiceImp implements LocationService {
+class LocationService implements LocationServiceInterface {
   @override
   Future<MyLocationPermission> checkLocationPermission() async {
     bool serviceEnabled = await Permission.location.request().isGranted;
