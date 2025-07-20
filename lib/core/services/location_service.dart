@@ -1,44 +1,28 @@
 import 'package:geolocator/geolocator.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:logger/logger.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-enum MyLocationPermission { allowed, denied, deniedForever }
-
-abstract class LocationServiceInterface {
-  Future<MyLocationPermission> checkLocationPermission();
+abstract class LocationService {
+  Future<LocationPermission> checkLocationPermission();
   Future<Position?> getCurrentLocation();
 }
 
-class LocationService implements LocationServiceInterface {
+class LocationServiceImp implements LocationService {
   @override
-  Future<MyLocationPermission> checkLocationPermission() async {
-    bool serviceEnabled = await Permission.location.request().isGranted;
-    if (!serviceEnabled) {
-      return MyLocationPermission.denied;
-    }
+  Future<LocationPermission> checkLocationPermission() async {
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return MyLocationPermission.denied;
-      }
+    } else if (permission == LocationPermission.deniedForever) {
+      await Geolocator.openAppSettings();
     }
-    if (permission == LocationPermission.deniedForever) {
-      return MyLocationPermission.deniedForever;
-    }
-    return MyLocationPermission.allowed;
+    return permission;
   }
 
   @override
   Future<Position?> getCurrentLocation() async {
-    try {
-      Position position = await Geolocator.getCurrentPosition(
-        locationSettings: LocationSettings(accuracy: LocationAccuracy.high),
-      );
-      return position;
-    } catch (e) {
-      Logger().i("Error getting location: $e");
-    }
-    return null;
+    return await Geolocator.getCurrentPosition(
+      locationSettings: LocationSettings(accuracy: LocationAccuracy.high),
+    );
   }
 }
