@@ -59,6 +59,7 @@ class WeatherDisplay extends StatelessWidget {
                       'https://openweathermap.org/img/wn/${mainWeather!.icon}@2x.png',
                       width: 60,
                       height: 60,
+                      errorBuilder: (context, error, stackTrace) => Container(),
                     ),
                   Text(
                     mainWeather?.description?.toUpperCase() ?? '',

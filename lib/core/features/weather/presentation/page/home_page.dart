@@ -53,11 +53,17 @@ class _HomePageState extends State<HomePage> {
             } else if (locationState is LocationLoaded) {
               return BlocBuilder<WeatherCubit, WeatherState>(
                 builder: (BuildContext context, WeatherState weatherState) {
-                  if (weatherState is WeatherLoaded) {
+                  if (weatherState.status == RxStatus.success ||
+                      weatherState.status == RxStatus.cashed) {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        WeatherDisplay(weather: weatherState.weather),
+                        if (weatherState.status == RxStatus.cashed)
+                          Text(
+                            'Cashed data with hydrated bloc',
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                        WeatherDisplay(weather: weatherState.data!),
                         ElevatedButton(
                           onPressed:
                               () => context
@@ -67,8 +73,8 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ],
                     );
-                  } else if (weatherState is WeatherError) {
-                    return Center(child: Text(weatherState.message));
+                  } else if (weatherState.status == RxStatus.error) {
+                    return Center(child: Text(weatherState.errorMessage!));
                   }
                   return Center(
                     child: CircularProgressIndicator(

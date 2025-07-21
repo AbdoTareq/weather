@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:requests_inspector/requests_inspector.dart';
 import 'package:weather/core/router/app_router.dart';
 import 'package:weather/core/sl/injection_container.dart' as sl;
@@ -7,6 +9,11 @@ import 'package:weather/core/sl/injection_container.dart' as sl;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await sl.init();
+  HydratedBloc.storage = await HydratedStorage.build(
+    storageDirectory: HydratedStorageDirectory(
+      (await getTemporaryDirectory()).path,
+    ),
+  );
 
   runApp(
     RequestsInspector(
