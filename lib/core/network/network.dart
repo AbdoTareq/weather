@@ -3,10 +3,7 @@ import 'package:weather/core/error/exceptions.dart';
 import 'package:weather/core/network/endpoints.dart';
 
 abstract class NetworkInterface {
-  Future<Response> get(String endPoint, dynamic body);
-  Future<Response> post(String endPoint, dynamic body);
-  Future<Response> put(String endPoint, dynamic body);
-  Future<Response> delete(String endPoint, dynamic body);
+  Future<Response> get(String endPoint);
 }
 
 class Network implements NetworkInterface {
@@ -35,40 +32,7 @@ class Network implements NetworkInterface {
   }
 
   @override
-  Future<Response> post(String endPoint, dynamic body) async {
-    return _req(() {
-      return dio.post(
-        Endpoints.baseUrl + endPoint,
-        data: body,
-        options: Options(headers: headers),
-      );
-    });
-  }
-
-  @override
-  Future<Response> put(String endPoint, dynamic body) {
-    return _req(() {
-      return dio.put(
-        Endpoints.baseUrl + endPoint,
-        data: body,
-        options: Options(headers: headers),
-      );
-    });
-  }
-
-  @override
-  Future<Response> delete(String endPoint, dynamic body) {
-    return _req(() {
-      return dio.delete(
-        Endpoints.baseUrl + endPoint,
-        data: body,
-        options: Options(headers: headers),
-      );
-    });
-  }
-
-  @override
-  Future<Response> get(String endPoint, dynamic body) {
+  Future<Response> get(String endPoint) {
     return _req(() {
       return dio.get(
         Endpoints.baseUrl + endPoint,
